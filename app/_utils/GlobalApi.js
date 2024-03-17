@@ -5,8 +5,7 @@ const MASTER_URL =
   process.env.NEXT_PUBLIC_HYGRAPH_API_KEY +
   "/master";
 
-const getCourseList = async() => {
-
+const getCourseList = async () => {
   const query = gql`
     query MyQuery {
       courseLists(first: 20, orderBy: createdAt_DESC) {
@@ -31,14 +30,70 @@ const getCourseList = async() => {
           url
         }
         autor
+        slug
       }
     }
   `;
 
-  const result = await request(MASTER_URL,query);
+  const result = await request(MASTER_URL, query);
   return result;
-}
+};
+
+const getSideBanner = async() => {
+  const query = gql`
+    query GetSideBanner {
+      sideBanners {
+        id
+        name
+        banner {
+          id
+          url
+        }
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, query);
+  return result;
+};
+
+const getCourseBySlug = async (courseId) => {
+  const query =
+    gql`
+    query GetCourseBySlug {
+      courseList(where: { slug: "` +
+    courseId +
+    `" }) {
+        autor
+        banner {
+          id
+          url
+        }
+        chapters {
+          ... on Chapter {
+            id
+            name
+            video {
+              url
+            }
+          }
+        }
+        free
+        name
+        id
+        slug
+        totalChapters
+        description
+      }
+    }
+  `;
+
+  const result = await request(MASTER_URL, query);
+  return result;
+};
 
 export default {
   getCourseList,
+  getSideBanner,
+  getCourseBySlug
 };

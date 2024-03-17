@@ -3,7 +3,7 @@ import React from "react";
 
 function CourseItem({ course }) {
   return (
-    <div className="border rounded-xl hover:shadow-md cursor-pointer hover:shadow-pink-400 transition-all">
+    <div className="border rounded-xl hover:shadow-md cursor-pointer hover:shadow-purple-700 transition-all">
       <Image
         src={course?.banner?.url}
         width={500}
