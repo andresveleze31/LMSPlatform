@@ -1,5 +1,5 @@
 "use client";
-import GlobalApi from "@/app/_utils/GlobalApi";
+import GlobalApi from "../../../_utils/GlobalApi";
 import React, { useEffect, useState } from "react";
 import {
   Select,
@@ -7,7 +7,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "../../../../components/ui/select";
 import CourseItem from "./CourseItem";
 import Link from "next/link";
 

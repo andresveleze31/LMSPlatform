@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "@/components/ui/button";
+import { Button } from "../../../components/ui/button";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { BellDot, Search } from "lucide-react";
 import Link from "next/link";
