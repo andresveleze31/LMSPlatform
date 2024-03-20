@@ -1,11 +1,13 @@
 import React from "react";
 import VideoPlayer from "./VideoPlayer";
 import Markdown from "react-markdown";
+import { Button } from "../../../../../components/ui/button";
 
 function CourseVideoDescription({
   courseInfo,
   activeChapterIndex,
   watchMode = false,
+  setChapterCompleted,
 }) {
   return (
     <div>
@@ -19,7 +21,18 @@ function CourseVideoDescription({
 
       <h2 className="mt-5 text-xl font-semibold ">
         {watchMode ? (
-          <span>{courseInfo?.chapters[activeChapterIndex]?.name} </span>
+          <span className="flex justify-between items-center">
+            {courseInfo?.chapters[activeChapterIndex]?.name}
+            <Button
+              onClick={() =>
+                setChapterCompleted(
+                  courseInfo?.chapters[activeChapterIndex]?.id
+                )
+              }
+            >
+              Mark Completed
+            </Button>
+          </span>
         ) : (
           <span>About This Course</span>
         )}

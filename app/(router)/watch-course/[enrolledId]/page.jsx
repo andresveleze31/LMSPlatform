@@ -5,10 +5,12 @@ import GlobalApi from "../../../_utils/GlobalApi";
 import { useUser } from "@clerk/nextjs";
 import CourseVideoDescription from "../../course-preview/[courseId]/_components/CourseVideoDescription";
 import CourseContentSection from "../../course-preview/[courseId]/_components/CourseContentSection";
+import { toast } from "sonner";
 
 function WatchCourse({ params }) {
   const { user } = useUser();
   const [courseInfo, setCourseInfo] = useState();
+  const [completedChapter, setCompletedChapter] = useState([]);
   const [activeChapterIndex, setActiveChapterIndex] = useState(0);
 
   useEffect(() => {
@@ -20,8 +22,20 @@ function WatchCourse({ params }) {
       params.enrolledId,
       user.primaryEmailAddress.emailAddress
     ).then((resp) => {
+      setCompletedChapter(resp.userEnrollCourses[0].completedChapter);
       setCourseInfo(resp.userEnrollCourses[0].courseList);
     });
+  };
+
+  const onChapterComplete = (chapterId) => {
+    GlobalApi.markChapterCompleted(params.enrolledId, chapterId).then(
+      (resp) => {
+        console.log(resp);
+        if (resp) {
+          toast("Chapter Marked as Completed");
+        }
+      }
+    );
   };
 
   return (
@@ -33,6 +47,7 @@ function WatchCourse({ params }) {
               courseInfo={courseInfo}
               activeChapterIndex={activeChapterIndex}
               watchMode={true}
+              setChapterCompleted={(chapterId) => onChapterComplete(chapterId)}
             />
           </div>
 
@@ -41,6 +56,7 @@ function WatchCourse({ params }) {
               courseInfo={courseInfo}
               isUserEnrolled={true}
               watchMode={true}
+              completedChapter={completedChapter}
               setActiveChapterIndex={(index) => setActiveChapterIndex(index)}
             />
           </div>

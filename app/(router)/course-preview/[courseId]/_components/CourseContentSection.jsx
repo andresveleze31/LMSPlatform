@@ -6,8 +6,13 @@ function CourseContentSection({
   isUserEnrolled,
   watchMode = false,
   setActiveChapterIndex,
+  completedChapter,
 }) {
   const [activeIndex, setActiveIndex] = useState(0);
+
+  const checkisChapterCompleted = (chapterId) => {
+    return completedChapter.find((item) => item.chapterId == chapterId);
+  };
 
   return (
     <div className="p-3 bg-white rounded-sm">
@@ -17,9 +22,14 @@ function CourseContentSection({
           <h2
             className={`p-2 text-md flex justify-between items-center border rounded-sm px-4 cursor-pointer m-2 hover:bg-gray-200 hover:text-gray-500 transition-all ${
               activeIndex == index && "bg-primary text-white"
-            } ${isUserEnrolled && "hover:bg-primary hover:text-white"}`}
+            } ${isUserEnrolled && "hover:bg-primary hover:text-white"}
+            ${
+              watchMode &&
+              checkisChapterCompleted(item.id) &&
+              "border-green-800 bg-green-400"
+            }`}
             onClick={() => {
-              watchMode && setActiveChapterIndex(index);
+              watchMode && setActiveChapterIndex(index)
               watchMode && setActiveIndex(index);
             }}
           >
